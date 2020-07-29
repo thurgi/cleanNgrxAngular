@@ -13,7 +13,7 @@ export class PractitionerActions extends StoreActionAbstract{
   };
 
   disassociateHealthcare = this.createAction(this.actions.disassociateHealthcare);
-  associateHealthcare = this.createAction(
+  associateHealthcare = createAction(
     this.actions.associateHealthcare,
     props<{ healthcare: HealthcareModel }>()
   );

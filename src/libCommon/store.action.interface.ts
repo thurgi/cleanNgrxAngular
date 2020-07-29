@@ -1,4 +1,6 @@
 import {createAction as ca} from '@ngrx/store';
+import {Props} from '@ngrx/store/src/models';
+import {OverloadedReturnType} from './overloaded.return.type';
 
 export interface StoreActionInterface {
   actions: { [key: string]: string };
@@ -6,28 +8,19 @@ export interface StoreActionInterface {
   storeName: string;
 }
 
-type OverloadedParametersType2<T> =
-  T extends { (args: infer R): any; (args: infer R): any; (args: infer R): any; (args: infer R): any } ? R :
-    T extends { (args: infer R): any; (args: infer R): any; (args: infer R): any } ? R :
-      T extends { (args: infer R): any; (args: infer R): any } ? R :
-        T extends (args: infer R) => any ? R : any;
-type param = Parameters<typeof ca>;
-
-type OverloadedReturnType<T> =
-  T extends { (...args: any[]): infer R; (...args: any[]): infer R; (...args: any[]): infer R; (...args: any[]): infer R } ? R :
-    T extends { (...args: any[]): infer R; (...args: any[]): infer R; (...args: any[]): infer R } ? R :
-      T extends { (...args: any[]): infer R; (...args: any[]): infer R } ? R :
-        T extends (...args: any[]) => infer R ? R : any;
-type createActionReturnType = OverloadedReturnType<typeof ca>;
+export type createActionReturnType = OverloadedReturnType<typeof ca>;
 
 export abstract class StoreActionAbstract implements StoreActionInterface {
   actions = {};
 
-  constructor(public storeName: string, public moduleName: string) {
+  constructor(public moduleName: string, public storeName: string) {
   }
 
-  createAction(...args: param): createActionReturnType {
-    return ca(...args);
+  createAction<T>(
+    name: string,
+    config?: Props<any>
+  ): createActionReturnType {
+    return ca(this.moduleName + this.storeName + name, config);
   }
 
 }

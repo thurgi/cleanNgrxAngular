@@ -2,7 +2,7 @@ import {createReducer, on} from '@ngrx/store';
 import {PractitionerAssigment} from '../../models/practitioner.assignement.model';
 import {PractitionerActions} from './practitioner.actions';
 
-const practitionerActions = new PractitionerActions();
+const practitionerActions = new PractitionerActions('test', 'test');
 const initialState: PractitionerAssigment = {
   practitioner: null,
   healthcare: null,
