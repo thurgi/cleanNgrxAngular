@@ -1,6 +1,6 @@
 import {ActionReducer} from '@ngrx/store/src/models';
 
-export interface StoreAbstract {
+export interface StoreInterface {
   getReducer(): ActionReducer<any>;
   getEffect(): any[];
 }

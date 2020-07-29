@@ -2,14 +2,14 @@ import {Injectable} from '@angular/core';
 import {Actions} from '@ngrx/effects';
 import {PractitionerService} from '../../services/practitioner.service';
 import {loadPractitioners, reset} from './practitioner.actions';
-import {StoreAbstract} from '../../../libCommon/store.abstract';
+import {StoreInterface} from '../../../libCommon/storeInterface';
 import {ActionReducer} from '@ngrx/store/src/models';
 import {practitionerReducer} from './practitioner.reducer';
 import {PractitionerModel} from '../../models/practitioner.model';
 import {selectPractitionerName, getPractitioner} from './practitioner.selectors';
 
 @Injectable()
-export class PractitionerStore implements StoreAbstract{
+export class PractitionerStore implements StoreInterface{
 
   constructor(private actions$: Actions, private practiceService: PractitionerService) {
   }

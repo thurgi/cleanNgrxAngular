@@ -1,14 +1,14 @@
 import {ModuleWithProviders} from '@angular/core';
 import {StoreFeatureModule} from '@ngrx/store/src/store_module';
 import {EffectsFeatureModule} from '@ngrx/effects/src/effects_feature_module';
-import {StoreAbstract} from './store.abstract';
+import {StoreInterface} from './storeInterface';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
 
 
 export function generateStoreImport(
   moduleName: string,
-  storeAbstract: StoreAbstract
+  storeAbstract: StoreInterface
 ): ModuleWithProviders<StoreFeatureModule | EffectsFeatureModule>[] {
   const reducer = storeAbstract.getReducer();
   const moduleWithProviders = storeAbstract.getEffect().map(effect => EffectsModule.forFeature(effect));
