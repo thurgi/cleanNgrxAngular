@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Actions} from '@ngrx/effects';
 import {PractitionerService} from '../../services/practitioner.service';
-import {loadPractitioners, resetPractitioners} from './practitioner.actions';
+import {loadPractitioners, reset} from './practitioner.actions';
 import {StoreAbstract} from '../../../libCommon/store.abstract';
 import {ActionReducer} from '@ngrx/store/src/models';
 import {practitionerReducer} from './practitioner.reducer';
-import {PractitionerModel} from '../../models/practitionerModel';
-import {selectPractitionerEntities, selectPractitionerIds, selectPractitionerState} from './practitioner.selectors';
+import {PractitionerModel} from '../../models/practitioner.model';
+import {selectPractitionerName, getPractitioner} from './practitioner.selectors';
 
 @Injectable()
 export class PractitionerStore implements StoreAbstract{
@@ -19,11 +19,15 @@ export class PractitionerStore implements StoreAbstract{
   }
 
   public resetPractitioners(): void {
-    resetPractitioners();
+    reset();
   }
 
-  public getPractitioner(id: string): PractitionerModel {
-    selectPractitionerEntities(selectPractitionerState);
+  public getPractitioner(): PractitionerModel{
+    return getPractitioner();
+  }
+
+  public getPractitionerName(): string {
+    return selectPractitionerName();
   }
 
   getEffect(): any[] {

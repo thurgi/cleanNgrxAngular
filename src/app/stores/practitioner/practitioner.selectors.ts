@@ -1,19 +1,10 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-import {adapter, getSelectedPractitionerId, PRACTITIONER_FEATURE_KEY, State} from './practitioner.reducer';
+import { createSelector } from '@ngrx/store';
+import {PractitionerAssigment} from '../../models/practitioner.assignement.model';
+import {PractitionerModel} from '../../models/practitioner.model';
 
-// get the selectors
-const {selectIds, selectEntities, selectAll, selectTotal} = adapter.getSelectors();
+export const getPractitioner = (state: PractitionerAssigment): PractitionerModel => state.practitioner;
 
-
-export const selectPractitionerState = createFeatureSelector<State>(PRACTITIONER_FEATURE_KEY);
-
-export const selectPractitionerIds = createSelector(
-  selectPractitionerState,
-  selectIds
+export const selectPractitionerName = createSelector(
+  getPractitioner,
+  (state: PractitionerModel) => state.name
 );
-export const selectPractitionerEntities = createSelector(selectPractitionerState, selectEntities);
-export const selectAllPractitioners = createSelector(selectPractitionerState, selectAll);
-export const selectPractitionerTotal = createSelector(selectPractitionerState, selectTotal);
-export const selectCurrentPractitionerId = createSelector(selectPractitionerState, getSelectedPractitionerId);
-
-

@@ -1,8 +1,8 @@
-export interface practitionerAssigment {
+import {PractitionerModel} from './practitioner.model';
+import {HealthcareModel} from './healthcare.model';
+
+export interface PractitionerAssigment {
   id: string;
-  login: string;
-  name: string;
-  firstName: string;
-  lastName: string;
-  associated: boolean;
+  practitioner: PractitionerModel;
+  healthcare: HealthcareModel;
 }

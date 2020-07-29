@@ -4,7 +4,7 @@ import { map, switchMap} from 'rxjs/operators';
 import * as PractitionerActions from './practitioner.actions';
 import {PractitionerService} from '../../services/practitioner.service';
 import {PractitionerHttpModel} from '../../../libHttp/models/practitionerHttpModel';
-import {PractitionerModel} from '../../models/practitionerModel';
+import {PractitionerModel} from '../../models/practitioner.model';
 
 export class PractitionerEffects {
   constructor(private actions$: Actions, private practiceService: PractitionerService) {}
