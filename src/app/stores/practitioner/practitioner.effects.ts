@@ -7,7 +7,12 @@ import {PractitionerHttpModel} from '../../../libHttp/models/practitionerHttpMod
 import {PractitionerModel} from '../../models/practitioner.model';
 import {StoreEffectInterface} from '../../../libCommon/store.effect.interface';
 import {createEffect} from '../../../libCommon/store.factory';
+import {Injectable} from '@angular/core';
+import {CleanNgrxAngularStoreModule} from '../clean-ngrx-angular-store.module';
 
+@Injectable({
+  providedIn: CleanNgrxAngularStoreModule
+})
 export class PractitionerEffects implements StoreEffectInterface{
   name = PractitionerEffects.name;
   constructor(

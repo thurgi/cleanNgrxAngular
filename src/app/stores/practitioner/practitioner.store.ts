@@ -13,16 +13,14 @@ import {StoreEffectInterface} from '../../../libCommon/store.effect.interface';
 import {PractitionerEffects} from './practitioner.effects';
 import {Actions} from '@ngrx/effects';
 import {PractitionerService} from '../../services/practitioner.service';
-
-type selectReturnType<T> = T extends (...args: any[]) => infer R ? Observable<R> : never;
-type selectParamsType<T> = T extends (...args: infer P) => any ? P : never;
+import {PractitionerModel} from '../../models/practitioner.model';
 
 @Injectable()
 export class PractitionerStore implements StoreInterface {
 
   public action;
-  public effects: StoreEffectInterface;
-  public reducer = practitionerReducer;
+  public static readonly effects = PractitionerEffects;
+  public static readonly reducer = practitionerReducer;
 
   constructor(moduleName: string, private store: Store, private actions$: Actions, private practiceService: PractitionerService) {
     this.action = new PractitionerActions(moduleName, PractitionerStore.name);
@@ -37,16 +35,16 @@ export class PractitionerStore implements StoreInterface {
     this.action.reset();
   }
 
-  public getPractitioner(): selectReturnType<typeof selectPractitioner> {
+  public getPractitioner(): Observable<PractitionerModel>{
     return this.store.select(selectPractitioner);
   }
 
-  public getPractitionerName(...args: selectParamsType<typeof selectPractitionerName>): selectReturnType<typeof selectPractitionerName> {
-    return this.store.select(selectPractitionerName, ...args);
+  public getPractitionerName(): Observable<string> {
+    return this.store.select(selectPractitionerName);
   }
 
-  getEffect(): any[] {
-    return [];
+  getEffect(): StoreEffectInterface[] {
+    return this.effects;
   }
 
   getReducer(): ActionReducer<any> {

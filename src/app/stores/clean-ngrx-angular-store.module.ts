@@ -1,3 +1,4 @@
+
 // import {StoreModuleInterface} from '../../libCommon/store.module';
 // import { NgModule } from '@angular/core';
 // import { EffectsModule } from '@ngrx/effects';
@@ -20,11 +21,16 @@
 
 import {StoreModuleInterface} from '../../libCommon/store.module';
 import { NgModule } from '@angular/core';
-import {generateStoreImport} from '../../libCommon/store.factory';
+import {PractitionerStore} from './practitioner/practitioner.store';
+import {StoreFacadeModule} from './practitioner/store.facade.module';
 
 @NgModule({
   declarations: [],
-  imports: [generateStoreImport(CleanNgrxAngularStoreModule.name, )]
+  imports: [
+    StoreFacadeModule.forRoot(CleanNgrxAngularStoreModule.name, PractitionerStore)
+  ],
+  providers: [
+  ]
 })
 export class CleanNgrxAngularStoreModule implements StoreModuleInterface{
   moduleName = 'CleanNgrxAngularStoreModule';

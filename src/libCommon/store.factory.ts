@@ -17,7 +17,7 @@ export function generateStoreImport(
   storeAbstract: StoreInterface
 ): ModuleWithProviders<StoreFeatureModule | EffectsFeatureModule>[] {
   const reducer = storeAbstract.getReducer();
-  const moduleWithProviders = storeAbstract.getEffect().map(effect => EffectsModule.forFeature(effect));
+  const moduleWithProviders = [EffectsModule.forFeature(storeAbstract.getEffect())];
   moduleWithProviders.push(StoreModule.forFeature(
     moduleName + storeAbstract.constructor.name,
     reducer
