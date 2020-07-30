@@ -7,14 +7,13 @@ import {PractitionerHttpModel} from '../../../libHttp/models/practitionerHttpMod
 import {PractitionerModel} from '../../models/practitioner.model';
 import {StoreEffectInterface} from '../../../libCommon/store.effect.interface';
 import {createEffect} from '../../../libCommon/store.factory';
-import {Injectable} from '@angular/core';
 
-@Injectable()
 export class PractitionerEffects implements StoreEffectInterface{
+  name = PractitionerEffects.name;
   constructor(
     private actions$: Actions,
-    private practiceService: PractitionerService,
-    private actionPractitioner: PractitionerActions
+    private actionPractitioner: PractitionerActions,
+    private practiceService: PractitionerService
   ) {}
 
   loadPractitioner$ = createEffect(() => {
