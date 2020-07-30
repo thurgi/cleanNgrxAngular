@@ -15,7 +15,7 @@ export abstract class StoreActionAbstract implements StoreActionInterface {
   constructor(public moduleName: string, public storeName: string) {
   }
 
-  createAction<T>(
+  createAction(
     ...args: createActionParamsType
   ): createActionReturnType {
     // @ts-ignore

@@ -17,9 +17,7 @@ export interface StoreEffectInterface {
 function test<A,B>(type: OfTypeEffectParamsType, ...operations: OperatorFunction<A, B>[])
 
 export abstract class StoreEffectAbstract implements StoreEffectInterface {
-  constructor(private actions$: Actions, private practiceService: any) {
-    this.createEffect();
-  }
+  constructor(private actions$: Actions) {}
 
   private createEffect<T, service extends T>(type: OfTypeEffectParamsType, ...args: createEffectParamsType): createEffectReturnType {
     // @ts-ignore

@@ -5,11 +5,10 @@ import {PractitionerActions} from './practitioner.actions';
 import {StoreInterface} from '../../../libCommon/store.interface';
 import {ActionReducer} from '@ngrx/store/src/models';
 import {practitionerReducer} from './practitioner.reducer';
-import {PractitionerModel} from '../../models/practitioner.model';
-import {selectPractitionerName, getPractitioner, selectPractitioner} from './practitioner.selectors';
+import {selectPractitioner, selectPractitionerName} from './practitioner.selectors';
 import {createReducer} from '../../../libCommon/store.factory';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
 
 type selectReturnType<T> = T extends (...args: any[]) => infer R ? Observable<R> : never;
 type selectParamsType<T> = T extends (...args: infer P) => any ? P : never;
