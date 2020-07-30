@@ -2,12 +2,13 @@ import {ModuleWithProviders} from '@angular/core';
 import {StoreFeatureModule} from '@ngrx/store/src/store_module';
 import {EffectsFeatureModule} from '@ngrx/effects/src/effects_feature_module';
 import {StoreInterface} from './store.interface';
-import {EffectsModule} from '@ngrx/effects';
-import {on, createReducer as cr, StoreModule, On} from '@ngrx/store';
+import {createEffect as ce, EffectsModule, ofType} from '@ngrx/effects';
+import {createReducer as cr, on, On, StoreModule} from '@ngrx/store';
 
 import {OverloadedReturnType} from './overloaded.return.type';
 import {StoreActionAbstract} from './store.action.interface';
 import {StoreReducerInterface} from './store.reducer.interface';
+import {OverloadedArguments} from './overloaded.params.type';
 
 type createreducerReturnType = OverloadedReturnType<typeof cr>;
 
@@ -41,4 +42,14 @@ export function createReducer(
     }
   }
   return cr(storeReducer.initialState, ...actionsReduce);
+}
+
+// ----------------------------- EFFECT -----------------------------------------------//
+
+export type createEffectParamsType = OverloadedArguments<typeof ce>;
+export type createEffectReturnType = OverloadedReturnType<typeof ce>;
+
+export function createEffect(...args: createEffectParamsType): createEffectReturnType {
+  // @ts-ignore
+  return ce(...args);
 }
