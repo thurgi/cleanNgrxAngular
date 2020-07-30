@@ -6,9 +6,13 @@ import {StoreInterface} from '../../../libCommon/store.interface';
 import {ActionReducer} from '@ngrx/store/src/models';
 import {practitionerReducer} from './practitioner.reducer';
 import {PractitionerModel} from '../../models/practitioner.model';
-import {selectPractitionerName, getPractitioner} from './practitioner.selectors';
+import {selectPractitionerName, getPractitioner, selectPractitioner} from './practitioner.selectors';
 import {createReducer} from '../../../libCommon/store.factory';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+type selectReturnType<T> = T extends (...args: any[]) => infer R ? Observable<R> : never;
+type selectParamsType<T> = T extends (...args: infer P) => any ? P : never;
 
 @Injectable()
 export class PractitionerStore implements StoreInterface {
@@ -28,12 +32,12 @@ export class PractitionerStore implements StoreInterface {
     this.action.reset();
   }
 
-  public getPractitioner(): PractitionerModel {
-    return getPractitioner(this.store);
+  public getPractitioner(): selectReturnType<typeof selectPractitioner> {
+    return this.store.select(selectPractitioner);
   }
 
-  public getPractitionerName(): string {
-    return selectPractitionerName();
+  public getPractitionerName(...args: selectParamsType<typeof selectPractitionerName>): selectReturnType<typeof selectPractitionerName> {
+    return this.store.select(selectPractitionerName, ...args);
   }
 
   getEffect(): any[] {
