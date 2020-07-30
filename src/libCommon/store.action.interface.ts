@@ -1,6 +1,6 @@
 import {createAction as ca} from '@ngrx/store';
-import {Props} from '@ngrx/store/src/models';
 import {OverloadedReturnType} from './overloaded.return.type';
+import {OverloadedArguments} from './overloaded.params.type';
 
 export interface StoreActionInterface {
   moduleName: string;
@@ -8,6 +8,7 @@ export interface StoreActionInterface {
 }
 
 export type createActionReturnType = OverloadedReturnType<typeof ca>;
+export type  createActionParamsType = OverloadedArguments<typeof ca>;
 
 export abstract class StoreActionAbstract implements StoreActionInterface {
 
@@ -15,10 +16,10 @@ export abstract class StoreActionAbstract implements StoreActionInterface {
   }
 
   createAction<T>(
-    name: string,
-    config?: Props<any>
+    ...args: createActionParamsType
   ): createActionReturnType {
-    return ca(this.moduleName + this.storeName + name, config);
+    // @ts-ignore
+    return ca(...args);
   }
 
 }
