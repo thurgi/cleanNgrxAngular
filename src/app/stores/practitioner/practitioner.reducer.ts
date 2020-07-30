@@ -1,29 +1,25 @@
-import {createReducer, on} from '@ngrx/store';
 import {PractitionerAssigment} from '../../models/practitioner.assignement.model';
-import {PractitionerActions} from './practitioner.actions';
+import {StoreReducerInterface} from '../../../libCommon/store.reducer.interface';
 
-const practitionerActions = new PractitionerActions('test', 'test');
-const initialState: PractitionerAssigment = {
+export const initialState: PractitionerAssigment = {
   practitioner: null,
   healthcare: null,
   id: null
 };
 
-export const practitionerReducer = createReducer(
+export const practitionerReducer: StoreReducerInterface = {
   initialState,
-  on(practitionerActions.reset, (state: PractitionerAssigment): PractitionerAssigment => ({
-      practitioner: null,
-      healthcare: null,
-      id: null
-    })
-  ),
-  on(practitionerActions.associateHealthcare, (state: PractitionerAssigment, {healthcare}): PractitionerAssigment => {
+  reset: (state: PractitionerAssigment): PractitionerAssigment => ({
+    practitioner: null,
+    healthcare: null,
+    id: null
+  }),
+  associateHealthcare: (state: PractitionerAssigment, {healthcare}): PractitionerAssigment => {
     state.healthcare = healthcare;
     return state;
-  }),
-  on(practitionerActions.disassociateHealthcare, state => {
-      state.healthcare = null;
-      return state;
-    }
-  )
-);
+  },
+  disassociateHealthcare: state => {
+    state.healthcare = null;
+    return state;
+  }
+};

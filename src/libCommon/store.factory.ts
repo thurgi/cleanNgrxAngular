@@ -6,12 +6,9 @@ import {EffectsModule} from '@ngrx/effects';
 import {on, createReducer as cr, StoreModule, On} from '@ngrx/store';
 
 import {OverloadedReturnType} from './overloaded.return.type';
-import {createActionReturnType} from './store.action.interface';
+import {StoreActionAbstract} from './store.action.interface';
+import {StoreReducerInterface} from './store.reducer.interface';
 
-type Action = {
-  action: createActionReturnType,
-  reducer: any
-};
 type createreducerReturnType = OverloadedReturnType<typeof cr>;
 
 export function generateStoreImport(
@@ -27,9 +24,21 @@ export function generateStoreImport(
   return moduleWithProviders;
 }
 
-export function createReducer(initialState: any, actions: Action[]): createreducerReturnType {
+export function createReducer(
+  storeAction: StoreActionAbstract,
+  storeReducer: StoreReducerInterface
+): createreducerReturnType {
   const actionsReduce: On<any>[] = [];
-  actions.forEach(action => actionsReduce.push(on(action.action, action.reducer)));
 
-  return cr(initialState, ...actionsReduce);
+  for (const member in storeReducer) { // For each member of the dictionary
+    if (
+      storeReducer.hasOwnProperty(member) && // Not inherited
+      typeof storeReducer[member] === 'function' && // Is it a function?
+      storeAction.hasOwnProperty(member) && // Not inherited
+      typeof storeAction[member] === 'function'// Is it a function?
+    ) {
+      actionsReduce.push(on(storeAction[member], storeReducer[member]));
+    }
+  }
+  return cr(storeReducer.initialState, ...actionsReduce);
 }

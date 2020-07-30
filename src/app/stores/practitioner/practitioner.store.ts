@@ -1,3 +1,5 @@
+'use strict';
+
 import {Injectable} from '@angular/core';
 import {PractitionerActions} from './practitioner.actions';
 import {StoreInterface} from '../../../libCommon/store.interface';
@@ -5,13 +7,16 @@ import {ActionReducer} from '@ngrx/store/src/models';
 import {practitionerReducer} from './practitioner.reducer';
 import {PractitionerModel} from '../../models/practitioner.model';
 import {selectPractitionerName, getPractitioner} from './practitioner.selectors';
+import {createReducer} from '../../../libCommon/store.factory';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class PractitionerStore implements StoreInterface {
 
   public action;
+  public reducer = practitionerReducer;
 
-  constructor(moduleName: string) {
+  constructor(moduleName: string, private store: Store) {
     this.action = new PractitionerActions(moduleName, PractitionerStore.name);
   }
 
@@ -24,7 +29,7 @@ export class PractitionerStore implements StoreInterface {
   }
 
   public getPractitioner(): PractitionerModel {
-    return getPractitioner();
+    return getPractitioner(this.store);
   }
 
   public getPractitionerName(): string {
@@ -36,7 +41,7 @@ export class PractitionerStore implements StoreInterface {
   }
 
   getReducer(): ActionReducer<any> {
-    return practitionerReducer;
+    return createReducer(this.action, this.reducer);
   }
 
 }
