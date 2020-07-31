@@ -16,8 +16,8 @@ export abstract class StoreActionAbstract implements StoreActionInterface {
   }
 
   createAction(
-    ...args: createActionParamsType
-  ): createActionReturnType {
+      ...args: any
+  ): any {
     // @ts-ignore
     return ca(...args);
   }

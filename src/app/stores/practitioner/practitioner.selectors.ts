@@ -1,8 +1,15 @@
-import { createSelector } from '@ngrx/store';
+import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {PractitionerAssigment} from '../../models/practitioner.assignement.model';
 import {PractitionerModel} from '../../models/practitioner.model';
 
-export const getPractitioner = (state: PractitionerAssigment): PractitionerModel => state.practitioner;
+
+// todo securiser ça
+export const getPractitionerSelector = createFeatureSelector('CleanNgrxAngularStoreModule');
+
+export const getPractitioner = createSelector(
+  getPractitionerSelector,
+  (state: PractitionerAssigment): PractitionerModel => state.practitioner
+);
 
 export const selectPractitioner  = createSelector(
   getPractitioner,
@@ -11,5 +18,5 @@ export const selectPractitioner  = createSelector(
 
 export const selectPractitionerName = createSelector(
   getPractitioner,
-  (state: PractitionerModel) => state.name
+  (state: PractitionerModel) => {  console.log(); return state?.name; }
 );

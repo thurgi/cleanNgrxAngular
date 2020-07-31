@@ -19,24 +19,20 @@
 //
 // }
 
-import {StoreModuleInterface} from '../../libCommon/store.module';
 import { NgModule } from '@angular/core';
 import {PractitionerStore} from './practitioner/practitioner.store';
 import {StoreFacadeModule} from './practitioner/store.facade.module';
+import {PractitionerService} from '../services/practitioner.service';
+import {PractitionerEffects} from './practitioner/practitioner.effects';
 
 @NgModule({
   declarations: [],
   imports: [
-    StoreFacadeModule.forRoot(CleanNgrxAngularStoreModule.name, PractitionerStore)
+    StoreFacadeModule.forRoot(CleanNgrxAngularStoreModule.name, PractitionerStore, [PractitionerEffects])
   ],
   providers: [
+    PractitionerService
   ]
 })
-export class CleanNgrxAngularStoreModule implements StoreModuleInterface{
-  moduleName = 'CleanNgrxAngularStoreModule';
-
-  constructor() {
-    this.constructor.name;
-  }
-
+export class CleanNgrxAngularStoreModule {
 }

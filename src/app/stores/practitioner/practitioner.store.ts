@@ -2,37 +2,36 @@
 
 import {Injectable} from '@angular/core';
 import {PractitionerActions} from './practitioner.actions';
-import {StoreInterface} from '../../../libCommon/store.interface';
-import {ActionReducer} from '@ngrx/store/src/models';
 import {practitionerReducer} from './practitioner.reducer';
 import {selectPractitioner, selectPractitionerName} from './practitioner.selectors';
-import {createReducer} from '../../../libCommon/store.factory';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {StoreEffectInterface} from '../../../libCommon/store.effect.interface';
-import {PractitionerEffects} from './practitioner.effects';
 import {Actions} from '@ngrx/effects';
 import {PractitionerService} from '../../services/practitioner.service';
 import {PractitionerModel} from '../../models/practitioner.model';
 
 @Injectable()
-export class PractitionerStore implements StoreInterface {
+export class PractitionerStore {
 
-  public action;
-  public static readonly effects = PractitionerEffects;
+  public static actions = PractitionerActions;
   public static readonly reducer = practitionerReducer;
 
-  constructor(moduleName: string, private store: Store, private actions$: Actions, private practiceService: PractitionerService) {
-    this.action = new PractitionerActions(moduleName, PractitionerStore.name);
-    this.effects = new PractitionerEffects(actions$, this.action, practiceService);
+  public actions: PractitionerActions;
+
+  constructor(moduleName: string, private store: Store, private actions$: Actions, private practiceService: PractitionerService, actions: PractitionerActions) {
+    this.actions = actions;
   }
 
   public loadPractitioners(): void {
-    this.action.loadPractitioners();
+    this.store.dispatch(this.actions.loadPractitioners());
   }
 
   public resetPractitioners(): void {
-    this.action.reset();
+    this.actions.reset();
+  }
+
+  public updatePractitionerName(name: string): void {
+    this.store.dispatch(this.actions.updatePractitionerName({name}));
   }
 
   public getPractitioner(): Observable<PractitionerModel>{
@@ -41,14 +40,6 @@ export class PractitionerStore implements StoreInterface {
 
   public getPractitionerName(): Observable<string> {
     return this.store.select(selectPractitionerName);
-  }
-
-  getEffect(): StoreEffectInterface[] {
-    return this.effects;
-  }
-
-  getReducer(): ActionReducer<any> {
-    return createReducer(this.action, this.reducer);
   }
 
 }

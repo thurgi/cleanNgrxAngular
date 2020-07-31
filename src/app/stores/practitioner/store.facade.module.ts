@@ -1,47 +1,39 @@
-import {NgModule, ModuleWithProviders, Type, Injector} from '@angular/core';
-import {PractitionerEffects} from './practitioner.effects';
-import {_FEATURE_EFFECTS, FEATURE_EFFECTS, USER_PROVIDED_EFFECTS} from '@ngrx/effects/src/tokens';
-import {createEffects} from '@ngrx/effects/src/effects_module';
-import {StoreEffectInterface} from '../../../libCommon/store.effect.interface';
-import {PractitionerActions} from './practitioner.actions';
+import {ModuleWithProviders, NgModule} from '@angular/core';
+import {EffectsModule, Actions, USER_PROVIDED_EFFECTS} from '@ngrx/effects';
 import {combineReducers, ReducerManager, Store} from '@ngrx/store';
 import {PractitionerStore} from './practitioner.store';
-import {Actions} from '@ngrx/effects';
 import {PractitionerService} from '../../services/practitioner.service';
+import {createReducer} from '../../../libCommon/store.factory';
 
+// TODO: guard to not register 2 time same modules
 @NgModule({
+  imports: [
+    EffectsModule.forFeature()
+  ]
 })
 export class StoreFacadeModule {
-  static forRoot(name: string, storeType: typeof PractitionerStore): ModuleWithProviders<StoreFacadeModule> {
+  static forRoot(name: string, storeType: typeof PractitionerStore, effects?: any[]): ModuleWithProviders<StoreFacadeModule> {
     return {
       ngModule: StoreFacadeModule,
       providers: [
-        Store,
         {
-          provide: PractitionerStore,
-          deps: [Store, Actions, PractitionerService, PractitionerEffects, ReducerManager],
-          useFactory: (reducerManager: ReducerManager, store: Store, actions$: Actions, practitionerService: PractitionerService, effects: PractitionerEffects) => {
-            reducerManager.addFeature({ key: name, reducers: storeType.reducer, reducerFactory: combineReducers});
-            return new storeType(name, store, actions$, practitionerService);
+          provide: storeType,
+          deps: [ReducerManager, Store, Actions, PractitionerService],
+          useFactory: (reducerManager: ReducerManager, store: Store, actions$: Actions, practitionerService: PractitionerService) => {
+            // create actions
+            const actions = new storeType.actions(storeType.name, PractitionerStore.name);
+            // create reducers
+            const reducers = createReducer(actions, storeType.reducer);
+            reducerManager.addFeature({ key: name, reducers, reducerFactory: combineReducers});
+            return new storeType(name, store, actions$, practitionerService, actions);
           }
         },
-        storeType.effects,
-        {
-          provide: _FEATURE_EFFECTS,
-          multi: true,
-          useValue: [storeType.effects],
-        },
+        effects ? effects : undefined,
         {
           provide: USER_PROVIDED_EFFECTS,
           multi: true,
-          useValue: [],
-        },
-        {
-          provide: FEATURE_EFFECTS,
-          multi: true,
-          useFactory: createEffects,
-          deps: [Injector, _FEATURE_EFFECTS, USER_PROVIDED_EFFECTS],
-        },
+          useValue: effects ?? [],
+        }
       ]
     };
   }

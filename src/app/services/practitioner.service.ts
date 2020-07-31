@@ -8,11 +8,14 @@ export class PractitionerService {
     return new Observable<PractitionerHttpModel[]>(subscriber => {
       subscriber.next([{
         id: 'test',
-        description: 'test'
+        description: 'test',
+        name: 'toto'
       }, {
         id: 'alpha',
-        description: 'alpha'
+        description: 'alpha',
+        name: 'titi'
       }]);
+      subscriber.complete();
     });
   }
 
@@ -20,8 +23,10 @@ export class PractitionerService {
     return new Observable<PractitionerHttpModel>(subscriber => {
       subscriber.next({
         id,
+        name: 'toto',
         description: 'test' + id
       });
+      subscriber.complete();
     });
   }
 }

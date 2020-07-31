@@ -1,5 +1,6 @@
 import {PractitionerAssigment} from '../../models/practitioner.assignement.model';
 import {StoreReducerInterface} from '../../../libCommon/store.reducer.interface';
+import {PractitionerModel} from '../../models/practitioner.model';
 
 export const initialState: PractitionerAssigment = {
   practitioner: null,
@@ -21,5 +22,14 @@ export const practitionerReducer: StoreReducerInterface = {
   disassociateHealthcare: state => {
     state.healthcare = null;
     return state;
+  },
+  loadPractitioners: (state: PractitionerAssigment, data): PractitionerAssigment => {
+    return state;
+  },
+  loadPractitionersSuccess: (state: PractitionerAssigment, data: PractitionerModel[]): PractitionerAssigment => {
+    return { ...state, practitioner: data[0]};
+  },
+  updatePractitionerName: (state: PractitionerAssigment, {name}): PractitionerAssigment => {
+    return { ...state, practitioner: { ...state.practitioner, name}};
   }
 };
