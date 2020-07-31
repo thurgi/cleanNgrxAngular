@@ -3,3 +3,5 @@
 <div *ngIf="name$ | async as pratcitionerName">
   my practitioner name is : {{ pratcitionerName }}
 </div>
+
+<h1 *ngIf="books$ | async as book"> Le titre de mon livre: {{ book.title }} </h1>

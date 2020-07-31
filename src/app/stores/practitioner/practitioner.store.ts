@@ -11,7 +11,6 @@ import {PractitionerSelectors} from './practitioner.selectors';
 @Injectable()
 export class PractitionerStore extends StoreFacadeAbstract<PractitionerAssigment> {
 
-  //TODO: essayer de se passer du besoin de typage manuel
   public actions: PractitionerActions;
   protected selectors: PractitionerSelectors;
 

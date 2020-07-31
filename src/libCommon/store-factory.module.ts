@@ -31,7 +31,7 @@ export class StoreFactoryModule {
           deps: [ReducerManager, Store, Actions],
           useFactory: (reducerManager: ReducerManager, store: Store) => {
             // create actions
-            const actions = new ActionType();
+            const actions = new ActionType(name);
             // instanciate selectors
             const selectors = new SelectorsType(name);
 
