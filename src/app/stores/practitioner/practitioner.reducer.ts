@@ -1,35 +1,25 @@
 import {PractitionerAssigment} from '../../models/practitioner.assignement.model';
-import {StoreReducerInterface} from '../../../libCommon/store.reducer.interface';
-import {PractitionerModel} from '../../models/practitioner.model';
+import {PractitionerActions} from './practitioner.actions';
+import {StoreReducerAbstract} from '../../../libCommon/store.reducer';
 
-export const initialState: PractitionerAssigment = {
-  practitioner: null,
-  healthcare: null,
-  id: null
-};
 
-export const practitionerReducer: StoreReducerInterface = {
-  initialState,
-  reset: (state: PractitionerAssigment): PractitionerAssigment => ({
+export class PractitionerReducer extends StoreReducerAbstract<PractitionerAssigment> {
+  protected actions: PractitionerActions;
+  public initialState: PractitionerAssigment = {
     practitioner: null,
     healthcare: null,
     id: null
-  }),
-  associateHealthcare: (state: PractitionerAssigment, {healthcare}): PractitionerAssigment => {
-    state.healthcare = healthcare;
-    return state;
-  },
-  disassociateHealthcare: state => {
-    state.healthcare = null;
-    return state;
-  },
-  loadPractitioners: (state: PractitionerAssigment, data): PractitionerAssigment => {
-    return state;
-  },
-  loadPractitionersSuccess: (state: PractitionerAssigment, data: PractitionerModel[]): PractitionerAssigment => {
-    return { ...state, practitioner: data[0]};
-  },
-  updatePractitionerName: (state: PractitionerAssigment, {name}): PractitionerAssigment => {
-    return { ...state, practitioner: { ...state.practitioner, name}};
-  }
-};
+  };
+  actionReducers = [
+    this.on(this.actions.loadPractitioners, (state, props) => {
+      return state;
+    }),
+    this.on(this.actions.loadPractitionersSuccess, (state, {data}) => {
+      console.log('data', data);
+      return { ...state, practitioner: data[0]};
+    }),
+    this.on(this.actions.updatePractitionerName, (state, {name}) => {
+      return { ...state, practitioner: { ...state.practitioner, name}};
+    })
+  ];
+}

@@ -1,45 +1,39 @@
 'use strict';
 
 import {Injectable} from '@angular/core';
-import {PractitionerActions} from './practitioner.actions';
-import {practitionerReducer} from './practitioner.reducer';
-import {selectPractitioner, selectPractitionerName} from './practitioner.selectors';
-import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {Actions} from '@ngrx/effects';
-import {PractitionerService} from '../../services/practitioner.service';
 import {PractitionerModel} from '../../models/practitioner.model';
+import {PractitionerAssigment} from '../../models/practitioner.assignement.model';
+import {StoreFacadeAbstract} from '../../../libCommon/store.facade';
+import {PractitionerActions} from './practitioner.actions';
+import {PractitionerSelectors} from './practitioner.selectors';
 
 @Injectable()
-export class PractitionerStore {
+export class PractitionerStore extends StoreFacadeAbstract<PractitionerAssigment> {
 
-  public static actions = PractitionerActions;
-  public static readonly reducer = practitionerReducer;
-
+  //TODO: essayer de se passer du besoin de typage manuel
   public actions: PractitionerActions;
-
-  constructor(moduleName: string, private store: Store, private actions$: Actions, private practiceService: PractitionerService, actions: PractitionerActions) {
-    this.actions = actions;
-  }
+  protected selectors: PractitionerSelectors;
 
   public loadPractitioners(): void {
-    this.store.dispatch(this.actions.loadPractitioners());
+    this.dispatch(this.actions.loadPractitioners({id: 'test'}));
   }
 
   public resetPractitioners(): void {
-    this.actions.reset();
+    this.dispatch(this.actions.reset());
   }
 
   public updatePractitionerName(name: string): void {
-    this.store.dispatch(this.actions.updatePractitionerName({name}));
+    this.dispatch(this.actions.updatePractitionerName({name}));
   }
 
   public getPractitioner(): Observable<PractitionerModel>{
-    return this.store.select(selectPractitioner);
+    return this.select(this.selectors.selectPractitioner);
   }
 
   public getPractitionerName(): Observable<string> {
-    return this.store.select(selectPractitionerName);
+    console.log('selectors', this.selectors);
+    return this.select(this.selectors.selectPractitionerName);
   }
 
 }

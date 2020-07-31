@@ -22,5 +22,4 @@ export class AppComponent implements OnInit {
   changePractitioner(): void {
     this.practitionerStore.updatePractitionerName(this.name);
   }
-
 }

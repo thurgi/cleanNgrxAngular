@@ -1,18 +1,18 @@
 import { props } from '@ngrx/store';
 import {HealthcareModel} from '../../models/healthcare.model';
-import {StoreActionAbstract} from '../../../libCommon/store.action.interface';
+import {StoreActionAbstract} from '../../../libCommon/store.action';
 import {Injectable} from '@angular/core';
 import {PractitionerModel} from '../../models/practitioner.model';
 
 @Injectable()
-export class PractitionerActions extends StoreActionAbstract{
-  disassociateHealthcare = this.createAction('disassociateHealthcare');
-  associateHealthcare = this.createAction(
+export class PractitionerActions extends StoreActionAbstract {
+  public readonly disassociateHealthcare = this.createAction('disassociateHealthcare');
+  public readonly associateHealthcare = this.createAction(
     'associateHealthcare',
     props<{ healthcare: HealthcareModel }>()
   );
-  reset = this.createAction('reset');
-  loadPractitioners = this.createAction('loadPractitioner', props<{id: string}>());
-  loadPractitionersSuccess = this.createAction('loadPractitionersSuccess', props<{data: PractitionerModel[] }>());
-  updatePractitionerName = this.createAction('updatePractitionerName', props<{name: string}>());
+  public readonly reset = this.createAction('reset');
+  public readonly loadPractitioners = this.createAction('loadPractitioner', props<{id: string}>());
+  public readonly loadPractitionersSuccess = this.createAction('loadPractitionersSuccess', props<{data: PractitionerModel[] }>());
+  public readonly updatePractitionerName = this.createAction('updatePractitionerName', props<{name: string}>());
 }
